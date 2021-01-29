@@ -10,10 +10,31 @@ const Section = styled.section`
 `;
 
 export default class AccountBalance extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this)
+  }
+//there's a problem with toggling the state
+  state = {
+    showBalance: true
+  };
+
+  handleClick(event) {
+    event.preventDefault();
+    this.props.handleToggleBalance();
+  }
+
     render() {
+        // if balance is shown, present a button to 'hide balance'.
+        // otherwise, present a button to 'show balance'
+        const buttonText = this.props.showBalance ? 'Hide Balance' : 'Show Balance';
+        const toggleBalance = this.props.showBalance ?
+        <><strong> Balance: </strong> ${this.props.amount}</>
+        : null;
         return (
             <Section>
-              <strong> Balance: </strong> ${this.props.amount}  
+                {toggleBalance}
+                <button onClick={this.handleClick}>{buttonText} </button>
             </Section>
         );
     }
