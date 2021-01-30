@@ -14,7 +14,7 @@ export default class AccountBalance extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this)
   }
-//there's a problem with toggling the state
+
   state = {
     showBalance: true
   };
