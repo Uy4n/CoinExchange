@@ -75,6 +75,25 @@ class App extends React.Component {
     this.setState({ showBalance: !this.state.showBalance });
   }
 
+  componentDidMount() {
+    fetch('https://api.coinpaprika.com/v1/coins')
+    .then( response => response.json() )
+    .then( coins => {
+        let coinDataNew = [];
+        for (let i = 0; i < 20; i++ ) {
+            const coin = coins[i];
+            coinDataNew[i] = {
+              name: coin.name,
+              ticker: coin.symbol,
+              balance: 0,
+              price: 0
+            };
+            console.log(coinDataNew);
+            this.setState({coinData: coinDataNew});
+        }
+    });
+  }
+
   render() {
     return (
       <AppDiv>
