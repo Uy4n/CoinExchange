@@ -8,12 +8,8 @@ const TableData = styled.td`
 `;
 
 export default class Coin extends Component {
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
     
-    handleClick(event) {
+    handleClick = (event) => {
         // We want to prevent the default action of
         // re-submitting the form upon clicking 'refresh'
         event.preventDefault();

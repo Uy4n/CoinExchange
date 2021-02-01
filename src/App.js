@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './components/Header/Header.jsx';
 import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance'
+import axios from 'axios'
 
 const AppDiv = styled.div`
     text-align: center;
@@ -10,88 +11,77 @@ const AppDiv = styled.div`
     color: #cccccc
 `;
 
+const COIN_COUNT = 10;
+
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      balance: 10000,
-      coinData: [
-          {
-            name: 'Bitcoin',
-            ticker: 'BTC',
-            balance: 1,
-            price: 9999.99
-          },
-          {
-            name: 'Ethereum',
-            ticker: 'ETH',
-            balance: 2,
-            price: 299.99
-          },
-          {
-            name: 'Tether',
-            ticker: 'USDT',
-            balance: 0.5,
-            price: 1
-          },
-          {
-            name: 'Ripple',
-            ticker: 'XRP',
-            balance: 1000,
-            price: 0.2
-          },
-          {
-            name: 'Bitcoin Cash',
-            ticker: 'BCH',
-            balance: 0,
-            price: 298.99
-          }
-      ],
-      showBalance: true
-    }
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.handleToggleBalance = this.handleToggleBalance.bind(this);
+  state = {
+    balance: 10000,
+    showBalance: true,
+    coinData: [
+      /*
+        {
+          name: 'Bitcoin',
+          ticker: 'BTC',
+          balance: 1,
+          price: 9999.99
+        },
+        {
+          name: 'Ethereum',
+          ticker: 'ETH',
+          balance: 2,
+          price: 299.99
+        },
+        {
+          name: 'Tether',
+          ticker: 'USDT',
+          balance: 0.5,
+          price: 1
+        },
+        {
+          name: 'Ripple',
+          ticker: 'XRP',
+          balance: 1000,
+          price: 0.2
+        },
+        {
+          name: 'Bitcoin Cash',
+          ticker: 'BCH',
+          balance: 0,
+          price: 298.99
+        }
+        */
+    ],
   }
-  handleRefresh(valueChangeTicker) {
-    const newCoinData = this.state.coinData.map( function( {ticker, name, balance, price} ) {
-      let newPrice = price;
-      if ( valueChangeTicker === ticker ) {
+  handleRefresh = (valueChangeTicker) => {
+    const newCoinData = this.state.coinData.map( function( values ) {
+      let newValues = {...values};
+      if ( valueChangeTicker === values.ticker ) {
         const randomPercentage = 0.995 + Math.random() * 0.01;
-        newPrice = newPrice * randomPercentage
+        newValues.price *= randomPercentage
       };
-      return {
-        // ticker = ticker, name = name
-        ticker,
-        name,
-        balance: balance,
-        price: newPrice
-      }
+      return newValues;
     });
     
     this.setState({ coinData: newCoinData })
   }
 
-  handleToggleBalance() {
+  handleToggleBalance = () => {
     this.setState({ showBalance: !this.state.showBalance });
   }
 
-  componentDidMount() {
-    fetch('https://api.coinpaprika.com/v1/coins')
-    .then( response => response.json() )
-    .then( coins => {
-        let coinDataNew = [];
-        for (let i = 0; i < 20; i++ ) {
-            const coin = coins[i];
-            coinDataNew[i] = {
-              name: coin.name,
-              ticker: coin.symbol,
-              balance: 0,
-              price: 0
-            };
-            console.log(coinDataNew);
-            this.setState({coinData: coinDataNew});
-        }
+  componentDidMount = async () => {
+    let response = await axios.get('https://api.coinpaprika.com/v1/coins')
+    let coinData = response.data.slice(0, COIN_COUNT).map(function(coin) {
+      return {
+        key: coin.id,
+        name: coin.name,
+        ticker: coin.symbol,
+        balance: 0,
+        price: 0,
+      }
     });
+    // retrieve the prices
+    this.setState({ coinData });
   }
 
   render() {
