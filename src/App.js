@@ -11,46 +11,13 @@ const AppDiv = styled.div`
     color: #cccccc
 `;
 
-const COIN_COUNT = 10;
+const COIN_COUNT = 5;
 
 class App extends React.Component {
   state = {
     balance: 10000,
     showBalance: true,
-    coinData: [
-      /*
-        {
-          name: 'Bitcoin',
-          ticker: 'BTC',
-          balance: 1,
-          price: 9999.99
-        },
-        {
-          name: 'Ethereum',
-          ticker: 'ETH',
-          balance: 2,
-          price: 299.99
-        },
-        {
-          name: 'Tether',
-          ticker: 'USDT',
-          balance: 0.5,
-          price: 1
-        },
-        {
-          name: 'Ripple',
-          ticker: 'XRP',
-          balance: 1000,
-          price: 0.2
-        },
-        {
-          name: 'Bitcoin Cash',
-          ticker: 'BCH',
-          balance: 0,
-          price: 298.99
-        }
-        */
-    ],
+    coinData: [],
   }
   handleRefresh = (valueChangeTicker) => {
     const newCoinData = this.state.coinData.map( function( values ) {
@@ -69,19 +36,39 @@ class App extends React.Component {
     this.setState({ showBalance: !this.state.showBalance });
   }
 
-  componentDidMount = async () => {
-    let response = await axios.get('https://api.coinpaprika.com/v1/coins')
-    let coinData = response.data.slice(0, COIN_COUNT).map(function(coin) {
+  getCoinId = async () => {
+    const response = await axios.get('https://api.coinpaprika.com/v1/coins');
+    return response.data.slice(0, COIN_COUNT).map(coin => coin.id);
+  }
+
+  getCoinUrl = async (coinIdList) => {
+    const coinUrl = 'https://api.coinpaprika.com/v1/tickers/';
+    const coinPromises = coinIdList.map(key => axios.get(coinUrl + key));
+    return await Promise.all(coinPromises);
+  }
+
+  getCoinData = (coinData) => {
+    return coinData.map(function(response) {
+      const coin = response.data;
       return {
-        key: coin.id,
-        name: coin.name,
-        ticker: coin.symbol,
-        balance: 0,
-        price: 0,
-      }
+        key:      coin.id,
+        name:     coin.name,
+        ticker:   coin.symbol,
+        balance:  0,
+        price:    coin.quotes.USD.price,
+      };
     });
-    // retrieve the prices
-    this.setState({ coinData });
+  }
+
+  loadCoinData = async () => {
+    const coinIdList = await this.getCoinId();
+    const coinData = await this.getCoinUrl(coinIdList);
+    const coinDataNew = this.getCoinData(coinData);
+    this.setState({ coinData: coinDataNew });
+  }
+
+  componentDidMount = async () => {
+    this.loadCoinData();
   }
 
   render() {
