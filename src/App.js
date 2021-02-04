@@ -12,6 +12,7 @@ const AppDiv = styled.div`
 `;
 
 const COIN_COUNT = 5;
+const formatPrice = price => parseFloat(Number(price).toFixed(4));
 
 class App extends React.Component {
   state = {
@@ -25,37 +26,13 @@ class App extends React.Component {
     const newCoinData = this.state.coinData.map( ( values  ) => {
         let newValues = {...values};
         if ( tickerKey === newValues.key ) {
-          newValues.price = parseFloat(
-            Number(promise.data.quotes.USD.price).toFixed(4)
-          );
+          newValues.price = formatPrice(promise.data.quotes.USD.price);
         };
         return newValues;
       }
     );
     this.setState({ coinData: newCoinData })
   }
-
-/*   handleRefresh = async (tickerKey) => {
-    const promise = await axios.get(`https://api.coinpaprika.com/v1/tickers/${tickerKey}`);
-    const newCoinData = this.state.coinData.map( function( 
-      { key, name, ticker, balance, price } )  {
-        let newPrice = price;
-        if ( tickerKey === key ) {
-          newPrice = parseFloat(
-            Number(promise.data.quotes.USD.price).toFixed(4)
-          );
-        };
-        return {
-          key,
-          name,
-          ticker,
-          balance,
-          price:  newPrice,
-        };
-      }
-    );
-    this.setState({ coinData: newCoinData })
-  } */
 
   handleToggleBalance = () => {
     this.setState({ showBalance: !this.state.showBalance });
@@ -80,7 +57,7 @@ class App extends React.Component {
         name:     coin.name,
         ticker:   coin.symbol,
         balance:  0,
-        price:    parseFloat(Number(coin.quotes.USD.price).toFixed(4)),
+        price:    formatPrice(coin.quotes.USD.price),
       };
     });
   }
