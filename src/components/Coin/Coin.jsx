@@ -13,15 +13,14 @@ export default class Coin extends Component {
         // We want to prevent the default action of
         // re-submitting the form upon clicking 'refresh'
         event.preventDefault();
-
-        this.props.handleRefresh(this.props.ticker);
+        this.props.handleRefresh(this.props.id);
 
     }
 
     render() {
         const toggleBalance = this.props.showBalance ?
-        <TableData>{this.props.balance}</TableData>
-        : null;
+        <TableData>{this.props.balance}</TableData> :
+        null;
 
         return (
             <tr>
@@ -42,5 +41,5 @@ export default class Coin extends Component {
 Coin.propTypes = {
     name: PropTypes.string.isRequired,
     ticker: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
+    price: PropTypes.number.isRequired,
 }
