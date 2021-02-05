@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -9,35 +9,23 @@ const Section = styled.section`
     color: greenyellow;
 `;
 
-export default class AccountBalance extends Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this)
-  }
+export default function AccountBalance(props) {
 
-  state = {
-    showBalance: true
-  };
+    const buttonText = props.showBalance ?
+    'Hide Balance' :
+    'Show Balance';
 
-  handleClick(event) {
-    event.preventDefault();
-    this.props.handleToggleBalance();
-  }
+    const toggleBalance = props.showBalance ?
+    <><strong> Balance: </strong> ${props.amount}</> :
+    null;
 
-    render() {
-        // if balance is shown, present a button to 'hide balance'.
-        // otherwise, present a button to 'show balance'
-        const buttonText = this.props.showBalance ? 'Hide Balance' : 'Show Balance';
-        const toggleBalance = this.props.showBalance ?
-        <><strong> Balance: </strong> ${this.props.amount}</>
-        : null;
-        return (
-            <Section>
-                {toggleBalance}
-                <button onClick={this.handleClick}>{buttonText} </button>
-            </Section>
-        );
-    }
+    return (
+        <Section>
+            {toggleBalance}
+            <button onClick={props.handleToggleBalance}>{buttonText} </button>
+        </Section>
+    );
+
 }
 
 
