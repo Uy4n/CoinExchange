@@ -20,7 +20,22 @@ function App(props) {
   const [coinData, setCoinData] = useState([]);
 
   const componentDidMount = async () => {
-    loadCoinData();
+    const response = await axios.get('https://api.coinpaprika.com/v1/coins');
+    const coinIdList = response.data.slice(0, COIN_COUNT).map(coin => coin.id);
+    const coinUrl = 'https://api.coinpaprika.com/v1/tickers/';
+    const coinPromises = coinIdList.map(key => axios.get(coinUrl + key));
+    const coinData = await Promise.all(coinPromises);
+    const coinPriceData = coinData.map(function(response) {
+      const coin = response.data;
+      return {
+        key:      coin.id,
+        name:     coin.name,
+        ticker:   coin.symbol,
+        balance:  0,
+        price:    formatPrice(coin.quotes.USD.price),
+      };
+    });
+    setCoinData(coinPriceData);
   }
 
   useEffect(function() {
@@ -45,37 +60,6 @@ function App(props) {
   const handleToggleBalance = () => {
     setShowBalance(oldValue => !oldValue);
   }
-
-  const getCoinId = async () => {
-    const response = await axios.get('https://api.coinpaprika.com/v1/coins');
-    return response.data.slice(0, COIN_COUNT).map(coin => coin.id);
-  }
-
-  const getCoinUrl = async (coinIdList) => {
-    const coinUrl = 'https://api.coinpaprika.com/v1/tickers/';
-    const coinPromises = coinIdList.map(key => axios.get(coinUrl + key));
-    return await Promise.all(coinPromises);
-  }
-
-  const getCoinData = (coinData) => {
-    return coinData.map(function(response) {
-      const coin = response.data;
-      return {
-        key:      coin.id,
-        name:     coin.name,
-        ticker:   coin.symbol,
-        balance:  0,
-        price:    formatPrice(coin.quotes.USD.price),
-      };
-    });
-  }
-
-  const loadCoinData = async () => {
-    const coinIdList = await this.getCoinId();
-    const coinData = await this.getCoinUrl(coinIdList);
-    const coinPriceData = this.getCoinData(coinData);
-    setCoinData(coinPriceData);
-  }  
 
   return (
     <AppDiv>
