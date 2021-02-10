@@ -26,6 +26,7 @@ export default function Coin(props) {
             <TableData>{props.ticker}</TableData>
             {toggleBalance}
             <TableData>${props.price}</TableData>
+            <TableData>${props.marketCap}</TableData>
             <TableData>
                 <form action="#" method="POST">
                     <button onClick={handleClick}>Refresh</button>

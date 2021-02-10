@@ -21,6 +21,7 @@ export default function CoinList(props) {
               <th>Ticker</th>
               {toggleBalance}
               <th>Price</th>
+              <th>Market Cap</th>
               <th>Actions</th>
             </tr>
           </thead>

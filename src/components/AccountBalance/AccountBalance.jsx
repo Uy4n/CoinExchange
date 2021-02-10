@@ -19,10 +19,13 @@ export default function AccountBalance(props) {
     <><strong> Balance: </strong> ${props.amount}</> :
     null;
 
+    const carePackageText = 'Claim Care Package';
+
     return (
         <Section>
             {toggleBalance}
             <button onClick={props.handleToggleBalance}>{buttonText} </button>
+            <button onClick={props.handleCarePackage}>{carePackageText} </button>
         </Section>
     );
 

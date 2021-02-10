@@ -13,6 +13,7 @@ const AppDiv = styled.div`
 
 const COIN_COUNT = 5;
 const formatPrice = price => parseFloat(Number(price).toFixed(4));
+const formatMarketCap = marketCap => Number(marketCap).toLocaleString();
 
 function App(props) {
   const [balance, setBalance] = useState(10000);
@@ -28,11 +29,12 @@ function App(props) {
     const coinPriceData = coinData.map(function(response) {
       const coin = response.data;
       return {
-        key:      coin.id,
-        name:     coin.name,
-        ticker:   coin.symbol,
-        balance:  0,
-        price:    formatPrice(coin.quotes.USD.price),
+        key:        coin.id,
+        name:       coin.name,
+        ticker:     coin.symbol,
+        balance:    0,
+        price:      formatPrice(coin.quotes.USD.price),
+        marketCap:  formatMarketCap(coin.quotes.USD.market_cap),
       };
     });
     setCoinData(coinPriceData);
@@ -61,6 +63,10 @@ function App(props) {
     setShowBalance(oldValue => !oldValue);
   }
 
+  const handleCarePackage = () => {
+    setBalance(value => value + 1200);
+  }
+
   return (
     <AppDiv>
       <Header />
@@ -68,6 +74,7 @@ function App(props) {
         amount={balance}
         handleToggleBalance={handleToggleBalance}
         showBalance={showBalance}
+        handleCarePackage={handleCarePackage}
       />
       <CoinList
         coinData={coinData}
