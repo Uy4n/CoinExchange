@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './components/Header/Header.jsx';
 import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance'
+import Dashboard from "./views/Dashboard/Dashboard.js";
 import axios from 'axios'
 
 const AppDiv = styled.div`
@@ -52,6 +53,7 @@ function App(props) {
         let newValues = {...values};
         if ( tickerKey === newValues.key ) {
           newValues.price = formatPrice(promise.data.quotes.USD.price);
+          newValues.marketCap = formatMarketCap(promise.data.quotes.USD.market_cap);
         };
         return newValues;
       }
@@ -81,6 +83,7 @@ function App(props) {
         handleRefresh={handleRefresh}
         showBalance={showBalance}
       />
+      <Dashboard />
     </AppDiv>
   );
   
