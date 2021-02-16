@@ -4,7 +4,11 @@ import Header from './components/Header/Header.jsx';
 import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance'
 import Dashboard from "./views/Dashboard/Dashboard.js";
-import axios from 'axios'
+import axios from 'axios';
+
+import CoinDetailPage from "./pages/CoinDetailPage"
+import CoinSummaryPage from "./pages/CoinSummaryPage"
+import {BrowserRouter, Route} from "react-router-dom"
 
 const AppDiv = styled.div`
     text-align: center;
@@ -71,19 +75,23 @@ function App(props) {
 
   return (
     <AppDiv>
-      <Header />
-      <AccountBalance
-        amount={balance}
-        handleToggleBalance={handleToggleBalance}
-        showBalance={showBalance}
-        handleCarePackage={handleCarePackage}
-      />
-      <CoinList
-        coinData={coinData}
-        handleRefresh={handleRefresh}
-        showBalance={showBalance}
-      />
-      <Dashboard />
+      <BrowserRouter>
+        <Header />
+        <Route exact path="/" component={CoinSummaryPage}/>
+        <Route path="/coins/:id" component={CoinDetailPage}/>
+        <AccountBalance
+          amount={balance}
+          handleToggleBalance={handleToggleBalance}
+          showBalance={showBalance}
+          handleCarePackage={handleCarePackage}
+        />
+        <CoinList
+          coinData={coinData}
+          handleRefresh={handleRefresh}
+          showBalance={showBalance}
+        />
+        <Dashboard />
+      </BrowserRouter>
     </AppDiv>
   );
   
