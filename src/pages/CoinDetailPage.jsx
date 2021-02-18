@@ -5,12 +5,29 @@ import HistoryChart from '../components/HistoryChart/HistoryChart';
 import axios from 'axios';
 
 const CoinDetailPage = () => {
-    //fetching data for detailpage
     const { id } = useParams();
     const [coinData, setCoinData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const timestamp = Math.floor(Date.now() / 1000);
     const dayUnix = 86400;
+
+    const formatData = data => {
+        return data.map(element => {
+            return {
+                /* data[0] = time_open,
+                data[1] = time_close,
+                data[2] = open,
+                data[3] = high,
+                data[4] = low,
+                data[5] = close,
+                data[6] = volume,
+                data[7] = market_cap,
+                */
+                t: element.time_close,
+                y: element.close.toFixed(2),
+            };
+        });
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,14 +65,12 @@ const CoinDetailPage = () => {
             ]);
 
             setCoinData({
-                day: day.data.prices,
-                week: week.data.prices,
-                year: year.data.prices,
-                detail: detail.data.quotes.usd,
+                day: formatData(day.data),
+                week: formatData(week.data),
+                year: formatData(year.data),
+                detail: detail.data,
             });
             setIsLoading(false);
-            console.log(week);
-            console.log(detail);
         };
 
         fetchData();
@@ -67,7 +82,7 @@ const CoinDetailPage = () => {
         }
         return (
             <div className="coinlist">
-                <HistoryChart/>
+                <HistoryChart data={coinData} />
                 <CoinApiData/>
             </div>
         );
