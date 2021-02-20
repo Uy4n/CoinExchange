@@ -83,7 +83,7 @@ const CoinDetailPage = () => {
         return (
             <div className="coinlist">
                 <HistoryChart data={coinData} />
-                <CoinApiData/>
+                <CoinApiData data={coinData.detail}/>
             </div>
         );
     };

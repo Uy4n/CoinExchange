@@ -1,9 +1,56 @@
 import React from 'react'
 
-const CoinApiData = () => {
+const CoinApiData = ({data}) => {
+
+    const renderData = () => {
+        if (data) {
+            return (
+                <div className="bg-white mt-3 p-2 rounder border row">
+                    <div className="col-sm">
+                        <div className="d-flex flex-column">
+                            <span className="text-muted coin-data-category">Market Cap</span>
+                            <span>${data.quotes.USD.market_cap.toLocaleString('en')}</span>
+                        </div>
+                        <hr/>
+                        <div className="d-flex flex-column">
+                            <span className="text-muted coin-data-category">Total Supply</span>
+                            <span>{data.total_supply}</span>
+                        </div>
+
+                        <div className="col-sm">
+                            <div className="d-flex flex-column">
+                                <span className="text-muted coin-data-category">Volume (24h)</span>
+                                <span>${data.quotes.USD.volume_24h.toLocaleString('en')}</span>
+                            </div>
+                            <hr/>
+                            <div className="d-flex flex-column">
+                                <span className="text-muted coin-data-category">High (24h)</span>
+                                <span>{data.high_24h}</span>
+                            </div>
+                        </div>
+
+                        <div className="col-sm">
+                            <div className="d-flex flex-column">
+                                <span className="text-muted coin-data-category">Circulating Supply</span>
+                                <span>{data.circulating_supply}</span>
+                            </div>
+                            <hr/>
+                            <div className="d-flex flex-column">
+                                <span className="text-muted coin-data-category">Low (24h)</span>
+                                <span>{data.low_24h}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            )
+        }
+
+    }
+
     return (
         <div>
-            
+            {renderData()}
         </div>
     )
 }

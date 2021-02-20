@@ -5,7 +5,6 @@ import { historyOptions } from './HistoryOptions';
 const HistoryChart = ({data}) => {
     const chartRef = useRef();
     const {day, week, year, detail} = data;
-    console.log(week);
     const [timeFormat, setTimeFormat] = useState("24h");
 
     const determineTimeFormat = () => {
@@ -28,8 +27,7 @@ const HistoryChart = ({data}) => {
                 data: {
                     datasets: [{
                         label: `${detail.name} price`,
-                        data: year,
-                        //[{x: 1, y: 15},{x: 2, y: 12},{x: 3, y: 25},],
+                        data: determineTimeFormat(),
                         backgroundColor: "rgba(54, 162, 235, 0.5)",
                         borderColor: "rgba(255, 159, 64, 1)",
                         pointRadius: 0,
@@ -42,25 +40,35 @@ const HistoryChart = ({data}) => {
         }
     });
 
-    // const renderPrice = () => {
-    //     if (detail) {
-    //         return (
-    //             <>
-    //                 <p className="my-0">{detail.current_price.toFixed(2)}</p>
-    //                 <p className={
-    //                     detail.price_change_24h < 0 ?
-    //                     "text-danger my-0" :
-    //                     "text-success my-0"
-    //                 }>{detail.price_change_percentage_24h.toFixed(2)}</p>
-    //             </>
-    //         )
-    //     }
-    // }
+    const renderPrice = () => {
+        if (detail) {
+            return (
+                <>
+                    <p className="my-0">${data.detail.quotes.USD.price.toFixed(2)}</p>
+                    <p className={
+                        data.detail.quotes.USD.percent_change_24h < 0 ?
+                        "text-danger my-0" :
+                        "text-success my-0"
+                    }>{data.detail.quotes.USD.percent_change_24h}%</p>
+                </>
+            )
+        }
+    }
 
     return (
         <div className="bg-white border mt-2 rounded p-3">
+            <div>{renderPrice()}</div>
             <div>
                 <canvas ref={chartRef} id="myChart" width={250} height={250}></canvas>
+            </div>
+
+            <div className="chart-button mt-1">
+                <button onClick={() => setTimeFormat("24h")}
+                        className="button.btn.btn-outline-secondary.btn-sm">24h</button>
+                <button onClick={() => setTimeFormat("7d")}
+                        className="button.btn.btn-outline-secondary.btn-sm mx-1">7d</button>
+                <button onClick={() => setTimeFormat("1y")}
+                        className="button.btn.btn-outline-secondary.btn-sm">1y</button>
             </div>
         </div>
 
