@@ -4,34 +4,73 @@ import styled from 'styled-components';
 
 const TableData = styled.td`
     border: 1px solid #cccccc;
-    width: 25vh;
+    width: 14vw;
+`;
+
+const TdControls = styled(TableData)`
+    width: 34vw;
+`;
+
+const TdName = styled(TableData)`
+    width: 24vw;
+`;
+
+const Button = styled.button`
+    font-size: 11px;
+    width: 64px;
+    margin: 3px 5px 0;
 `;
 
 export default function Coin(props) {
     
-    const handleClick = (event) => {
+    const handleRefresh = (event) => {
         // We want to prevent the default action of
         // re-submitting the form upon clicking 'refresh'
         event.preventDefault();
         props.handleRefresh(props.id);
     }
 
+    const handleBuy = (event) => {
+        // We want to prevent the default action of
+        // re-submitting the form upon clicking 'refresh'
+        event.preventDefault();
+        props.handleTransaction(true, props.tickerId);
+    }
+
+    const handleSell = (event) => {
+        // We want to prevent the default action of
+        // re-submitting the form upon clicking 'refresh'
+        event.preventDefault();
+        props.handleTransaction(false, props.tickerId);
+    }
+
         const toggleBalance = props.showBalance ?
         <TableData>{props.balance}</TableData> :
-        null;
+        '-';
 
     return (
         <tr>
-            <TableData>{props.name}</TableData>
+            <TdName>{props.name}</TdName>
             <TableData>{props.ticker}</TableData>
-            {toggleBalance}
+            <TableData>{props.showBalance ? props.balance : '-'}</TableData>
             <TableData>${props.price}</TableData>
             <TableData>${props.marketCap}</TableData>
-            <TableData>
+            <TdControls>
                 <form action="#" method="POST">
-                    <button onClick={handleClick}>Refresh</button>
+                    <Button className="btn btn-info"
+                        onClick={handleRefresh}>
+                        Refresh
+                    </Button>
+                    <Button className="btn btn-warning"
+                        onClick={handleBuy}>
+                        Buy
+                    </Button>
+                    <Button className="btn btn-danger"
+                        onClick={handleSell}>
+                        Sell
+                    </Button>
                 </form>
-            </TableData>
+            </TdControls>
         </tr>
     );
 }

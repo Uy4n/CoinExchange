@@ -5,6 +5,7 @@ import styled, { keyframes } from 'styled-components';
 const AppHeader = styled.div`
     background-color: #282c34;
     min-height: 20vh;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -14,7 +15,10 @@ const AppHeader = styled.div`
 `;
 
 const AppTitle = styled.div`
-    font-size: 4rem;
+    font-size: 3rem;
+    line-height: 8rem;
+    fold-weight: bold;
+    min-width: 300px;
 `;
 
 const AppLogo = styled.img`

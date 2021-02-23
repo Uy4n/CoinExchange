@@ -10,6 +10,9 @@ import CoinDetailPage from "./pages/CoinDetailPage"
 import CoinSummaryPage from "./pages/CoinSummaryPage"
 import {BrowserRouter, Route} from "react-router-dom"
 
+import 'bootswatch/dist/flatly/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/js/all';
+
 const AppDiv = styled.div`
     text-align: center;
     background-color: darkblue;
@@ -22,7 +25,7 @@ const formatMarketCap = marketCap => Number(marketCap).toLocaleString();
 
 function App(props) {
   const [balance, setBalance] = useState(10000);
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [coinData, setCoinData] = useState([]);
 
   const componentDidMount = async () => {
@@ -69,6 +72,19 @@ function App(props) {
     setShowBalance(oldValue => !oldValue);
   }
 
+  const handleTransaction = (isBuy, valueChangeId) => {
+    var balanceChange = isBuy ? 1 : -1;
+    const newCoinData = coinData.map( function (values) {
+      let newValues = {...values};
+      if ( valueChangeId == values.key) {
+        newValues.balance += balanceChange;
+        setBalance( oldBalance => oldBalance - balanceChange * newValues.price );
+      }
+      return newValues;
+    });
+    setCoinData(newCoinData);
+  }
+
   const handleCarePackage = () => {
     setBalance(value => value + 1200);
   }
@@ -88,6 +104,7 @@ function App(props) {
         <CoinList
           coinData={coinData}
           handleRefresh={handleRefresh}
+          handleTransaction={handleTransaction}
           showBalance={showBalance}
         />
         <Dashboard />
