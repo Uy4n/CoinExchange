@@ -13,7 +13,9 @@ const CoinTable = styled.table`
 
 //   return {
 //     <ul className="coinlist list-group mt-2">
-//       {coin}
+//       {coins.map(coin => {
+//         <Coin key={coin.key} coin={coin} />
+//       })}
 //   }
 // }
 

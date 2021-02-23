@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Header from './components/Header/Header.jsx';
 import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance'
-import Dashboard from "./views/Dashboard/Dashboard.js";
 import axios from 'axios';
 
 import CoinDetailPage from "./pages/CoinDetailPage"
@@ -107,7 +106,6 @@ function App(props) {
           handleTransaction={handleTransaction}
           showBalance={showBalance}
         />
-        <Dashboard />
       </BrowserRouter>
     </AppDiv>
   );

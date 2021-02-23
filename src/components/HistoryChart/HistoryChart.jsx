@@ -36,6 +36,43 @@ const HistoryChart = ({data}) => {
                 options: {
                     ...historyOptions
                 },
+                // Other configurable options
+                // tooltips: {
+                // backgroundColor: "rgba(0,0,0,0.8)",
+                // bodyAlign: "left",
+                // bodyFontColor: "#fff",
+                // bodySpacing: 2,
+                // borderColor: "rgba(0,0,0,0)",
+                // borderWidth: 0,
+                // callbacks: {
+                //     //beforeTitle: ƒ, title: ƒ, afterTitle: ƒ, beforeBody: ƒ, beforeLabel: ƒ, …
+                //     label: (tooltipItem, data) => {
+                //         return `$ ${tooltipItem.value}`
+                //     }
+                // },
+                // caretPadding: 2,
+                // caretSize: 5,
+                // cornerRadius: 6,
+                // custom: null,
+                // displayColors: true,
+                // enabled: true,
+                // footerAlign: "left",
+                // footerFontColor: "#fff",
+                // footerFontStyle: "bold",
+                // footerMarginTop: 6,
+                // footerSpacing: 2,
+                // intersect: true,
+                // mode: "nearest",
+                // multiKeyBackground: "#fff",
+                // position: "average",
+                // titleAlign: "left",
+                // titleFontColor: "#fff",
+                // titleFontStyle: "bold",
+                // titleMarginBottom: 6,
+                // titleSpacing: 2,
+                // xPadding: 6,
+                // yPadding: 6,
+                // }
             });
         }
     });
