@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import history from './../../history';
 
 const TableData = styled.td`
     border: 1px solid #cccccc;
@@ -24,33 +25,34 @@ const Button = styled.button`
 export default function Coin(props) {
     
     const handleRefresh = (event) => {
-        // We want to prevent the default action of
-        // re-submitting the form upon clicking 'refresh'
         event.preventDefault();
         props.handleRefresh(props.id);
     }
 
     const handleBuy = (event) => {
-        // We want to prevent the default action of
-        // re-submitting the form upon clicking 'refresh'
         event.preventDefault();
         props.handleTransaction(true, props.tickerId);
     }
 
     const handleSell = (event) => {
-        // We want to prevent the default action of
-        // re-submitting the form upon clicking 'refresh'
         event.preventDefault();
         props.handleTransaction(false, props.tickerId);
     }
 
-        const toggleBalance = props.showBalance ?
-        <TableData>{props.balance}</TableData> :
-        '-';
+    const toggleBalance = props.showBalance ?
+    <TableData>{props.balance}</TableData> :
+    '-';
 
     return (
         <tr>
-            <TdName>{props.name}</TdName>
+            <TdName>
+                <form action="" method="GET">
+                    <Button className="btn btn-info"
+                        onClick={() => history.push(`/coins/${props.id}`)}>
+                        {props.name}
+                    </Button>
+                </form>
+            </TdName>
             <TableData>{props.ticker}</TableData>
             <TableData>{props.showBalance ? props.balance : '-'}</TableData>
             <TableData>${props.price}</TableData>

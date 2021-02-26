@@ -75,7 +75,7 @@ function App(props) {
     var balanceChange = isBuy ? 1 : -1;
     const newCoinData = coinData.map( function (values) {
       let newValues = {...values};
-      if ( valueChangeId == values.key) {
+      if ( valueChangeId === values.key) {
         newValues.balance += balanceChange;
         setBalance( oldBalance => oldBalance - balanceChange * newValues.price );
       }
