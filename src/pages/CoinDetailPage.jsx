@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import CoinApiData from '../components/CoinApiData/CoinApiData';
 import HistoryChart from '../components/HistoryChart/HistoryChart';
 import axios from 'axios';
@@ -32,7 +32,7 @@ const CoinDetailPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const [day, week, year, detail] = await Promise.all([
+            const [day, week, year, detail, ohlcv] = await Promise.all([
                 axios.get(`https://api.coinpaprika.com/v1/coins/${id}/ohlcv/historical`, {
                     params: {
                         start: timestamp-dayUnix,
@@ -69,6 +69,7 @@ const CoinDetailPage = () => {
                 week: formatData(week.data),
                 year: formatData(year.data),
                 detail: detail.data,
+                ohlcv: day.data,
             });
             setIsLoading(false);
         };
@@ -83,7 +84,7 @@ const CoinDetailPage = () => {
         return (
             <div className="coinlist">
                 <HistoryChart data={coinData} />
-                <CoinApiData data={coinData.detail}/>
+                <CoinApiData data={coinData}/>
             </div>
         );
     };

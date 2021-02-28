@@ -9,6 +9,8 @@ import CoinDetailPage from "./pages/CoinDetailPage"
 import CoinSummaryPage from "./pages/CoinSummaryPage"
 import {BrowserRouter, Route} from "react-router-dom"
 
+import history from './history';
+
 import 'bootswatch/dist/flatly/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/js/all';
 
@@ -26,6 +28,8 @@ function App(props) {
   const [balance, setBalance] = useState(10000);
   const [showBalance, setShowBalance] = useState(false);
   const [coinData, setCoinData] = useState([]);
+
+  const [showGraph, setShowGraph] = useState(false);
 
   const componentDidMount = async () => {
     const response = await axios.get('https://api.coinpaprika.com/v1/coins');
@@ -84,6 +88,15 @@ function App(props) {
     setCoinData(newCoinData);
   }
 
+  const handleShowGraph = () => {
+    setShowGraph(true);
+  }
+
+  const handleHideGraph = () => {
+    history.push("/")
+    setShowGraph(false);
+  }
+
   const handleCarePackage = () => {
     setBalance(value => value + 1200);
   }
@@ -92,8 +105,14 @@ function App(props) {
     <AppDiv>
       <BrowserRouter>
         <Header />
-        <Route exact path="/" component={CoinSummaryPage}/>
-        <Route path="/coins/:id" component={CoinDetailPage}/>
+        <Route exact path="/"
+          component={CoinSummaryPage}
+          showGraph={showGraph}
+          handleHideGraph={handleHideGraph}/>
+        <Route path="/coins/:id"
+          component={CoinDetailPage}
+          showGraph={showGraph}
+          handleShowGraph={handleShowGraph}/>
         <AccountBalance
           amount={balance}
           handleToggleBalance={handleToggleBalance}

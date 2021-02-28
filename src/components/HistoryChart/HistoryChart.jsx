@@ -4,8 +4,8 @@ import { historyOptions } from './HistoryOptions';
 
 const HistoryChart = ({data}) => {
     const chartRef = useRef();
-    const {day, week, year, detail} = data;
-    const [timeFormat, setTimeFormat] = useState("24h");
+    const {day, week, year, detail, ohlcv} = data;
+    const [timeFormat, setTimeFormat] = useState("7d");
 
     const determineTimeFormat = () => {
         switch (timeFormat) {
@@ -93,7 +93,7 @@ const HistoryChart = ({data}) => {
     }
 
     return (
-        <div className="bg-white border mt-2 rounded p-3">
+        <div className="bg-blue border mt-2 rounded p-3">
             <div>{renderPrice()}</div>
             <div>
                 <canvas ref={chartRef} id="myChart" width={250} height={250}></canvas>

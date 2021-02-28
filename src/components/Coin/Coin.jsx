@@ -39,16 +39,16 @@ export default function Coin(props) {
         props.handleTransaction(false, props.tickerId);
     }
 
-    const toggleBalance = props.showBalance ?
-    <TableData>{props.balance}</TableData> :
-    '-';
+    const handleShowGraph = () => {
+        history.push(`/coins/${props.id}`);
+    }
 
     return (
         <tr>
             <TdName>
                 <form action="" method="GET">
                     <Button className="btn btn-info"
-                        onClick={() => history.push(`/coins/${props.id}`)}>
+                        onClick={handleShowGraph}>
                         {props.name}
                     </Button>
                 </form>

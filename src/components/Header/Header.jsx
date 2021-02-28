@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import logo from './logo.svg';
 import styled, { keyframes } from 'styled-components';
+import history from './../../history';
 
 const AppHeader = styled.div`
     background-color: #282c34;
@@ -43,7 +44,8 @@ const RotateLogo = styled.div`
 export default class Header extends Component {
     render() {
         return (
-          <AppHeader>
+          <AppHeader
+            onClick={() => history.push("/")}>
             <RotateLogo>
               <AppLogo src={logo} alt="React logo"/>
             </RotateLogo>

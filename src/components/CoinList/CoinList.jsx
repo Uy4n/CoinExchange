@@ -6,19 +6,6 @@ const CoinTable = styled.table`
     font-size: 1rem;
 `;
 
-// const renderCoins = () => {
-//   if(isLoading) {
-//     return <div>Loading...</div>
-//   }
-
-//   return {
-//     <ul className="coinlist list-group mt-2">
-//       {coins.map(coin => {
-//         <Coin key={coin.key} coin={coin} />
-//       })}
-//   }
-// }
-
 export default function CoinList(props) {
 
       return (
